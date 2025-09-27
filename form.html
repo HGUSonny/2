@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Dynamic Web Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+    h1 {
+      color: navy;
+    }
+    #controls {
+      margin: 10px 0;
+    }
+    input[type="text"] {
+      padding: 5px;
+      width: 250px;
+    }
+    button {
+      padding: 6px 12px;
+      margin-left: 5px;
+    }
+    ul {
+      margin-top: 15px;
+      list-style-type: square;
+    }
+  </style>
+</head>
+<body>
+  <h1>Dynamic Web page</h1>
+
+  <!-- 입력창 + 버튼 영역 -->
+  <div id="controls">
+    <input type="text" id="itemInput" placeholder="예: apple, banana, kiwi">
+    <button id="addBtn">추가</button>
+    <button id="clearBtn">삭제</button>
+  </div>
+
+  <!-- 결과 목록 -->
+  <ul id="itemList"></ul>
+
+  <script>
+    window.onload = function() {
+      const input = document.getElementById("itemInput");
+      const addBtn = document.getElementById("addBtn");
+      const clearBtn = document.getElementById("clearBtn");
+      const list = document.getElementById("itemList");
+
+      // 추가 버튼 클릭 시
+      addBtn.onclick = function() {
+        const text = input.value.trim();
+        if (text !== "") {
+          // 쉼표로 구분된 여러 항목도 추가
+          const items = text.split(",");
+          items.forEach(item => {
+            const li = document.createElement("li");
+            li.textContent = item.trim();
+            if (li.textContent) list.appendChild(li);
+          });
+          input.value = ""; // 입력창 비우기
+        } else {
+          alert("항목을 입력하세요!");
+        }
+      };
+
+      // 삭제 버튼 클릭 시 (모두 삭제)
+      clearBtn.onclick = function() {
+        list.innerHTML = "";
+        input.value = "";
+      };
+
+      // Enter 키 눌러도 추가되게 처리
+      input.addEventListener("keydown", function(e) {
+        if (e.key === "Enter") {
+          addBtn.click();
+        }
+      });
+    };
+  </script>
+</body>
+</html>
